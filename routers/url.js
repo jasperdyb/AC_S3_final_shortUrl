@@ -24,20 +24,67 @@ function generateRandomKey() {
 }
 
 router.post('/', (req, res, next) => {
-
+  const target = req.body.target
   let generatedUrl = null
 
-  if (validURL(req.body.target)) {
-    let key = generateRandomKey()
-    generatedUrl = req.body.domain + '/' + key
+  if (validURL(target)) {
+    Urls.findOne({ target: target })
+      .then(url => {
+        if (url) {
+          generatedUrl = req.body.domain + '/' + url.key
+          res.send(generatedUrl)
 
-    console.log(`This is a Url. New url : ${generatedUrl}`)
+        } else {
+
+          //檢查 key 衝突
+          const checkKeyIdentical = async function () {
+            let keyIdentical = false
+            let key = null
+
+            while (!keyIdentical) {
+              try {
+                key = generateRandomKey()
+                // key = "IL2FR"
+                const url = await Urls.findOne({ key: key }).exec()
+                if (!url) {
+                  keyIdentical = true
+                }
+                else {
+                  console.log('The key is not identical')
+                }
+              }
+              catch (e) {
+                console.log('exception: ' + e);
+              }
+            }
+            return key
+          }
+
+          checkKeyIdentical()
+            .then((key) => {
+              const url = new Urls({
+                target: target,
+                key: key
+              })
+
+              generatedUrl = req.body.domain + '/' + key
+
+              console.log(`This is a Url(${target}). New url : ${generatedUrl}`)
+
+              url.save(err => {
+                if (err) return console.error(err)
+                res.send(generatedUrl)
+              })
+            })
+        }
+      })
   }
   else {
     console.log("This is not a Url")
+    res.send(generatedUrl)
   }
 
-  res.send(generatedUrl)
+
 })
 
 module.exports = router
