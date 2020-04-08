@@ -35,7 +35,7 @@ $("#copyButton").click(function () {
   $("#shortenedUrl").select()
   document.execCommand("Copy")
   $("#shortenedUrl").blur()
-  $('#form-shortened-url').append(
+  $('#form-shortened-url div').after(
     '<div class="alert alert-success alert-dismissible fade show" role="alert">Copied!<button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button></div>')
   console.log("clicked!")
 })
