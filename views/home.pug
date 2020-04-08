@@ -17,12 +17,13 @@ body(class="text-center")
     div(class="form-group")
       label(for="targetUrl" class="sr-only") Url:
       input(type="text" id="targetUrl" class="form-control" placeholder="Url" name = "url" required=true autofocus=true)
+      //- append warning message here
     button(class="btn btn-lg btn-primary btn-block" id="urlSubmit" type="button") Generate shortened url
   form(id = "form-shortened-url")
     h1(class="h3 mb-3 font-weight-normal") Shortened url
     div(class="form-group")
       label(for="shortenedUrl" class="sr-only") Url:
-      input(type="text" id="shortenedUrl" class="form-control" placeholder="shortenedUrl" name = "shortenedUrl")
+      input(type="text" id="shortenedUrl" class="form-control" placeholder="shortenedUrl" name = "shortenedUrl" )
 
   script(src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
