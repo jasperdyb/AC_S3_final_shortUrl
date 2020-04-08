@@ -13,7 +13,7 @@ body {
   background-color: #f5f5f5;
 }
 
-.form-url ,.form-shortened-url {
+#form-url ,#form-shortened-url {
     width: 100%;
     max-width: 500px;
     padding: 15px;
@@ -21,22 +21,22 @@ body {
     
 }
 
-.form-url .form-control {
+#form-url .form-control {
   position: relative;
   box-sizing: border-box;
   height: auto;
   padding: 10px;
   font-size: 16px;
 }
-.form-url .form-control:focus {
+#form-url .form-control:focus {
   z-index: 2;
 }
 
 
-.form-url{
+#form-url{
   display: inline;
 }
 
-.form-shortened-url{
+#form-shortened-url{
   display: none;
 }

@@ -4,7 +4,7 @@ const Urls = require('../models/url')
 
 const hashLength = 5
 
-function validURL(str) {
+const validURL = function (str) {
   var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
     '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
@@ -14,7 +14,7 @@ function validURL(str) {
   return !!pattern.test(str);
 }
 
-function generateRandomKey() {
+const generateRandomKey = function () {
   const characters = "0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ";
   let string = "";
   for (let i = 0; i < hashLength; i++) {
@@ -23,10 +23,35 @@ function generateRandomKey() {
   return string;
 }
 
+//檢查 key 衝突
+const checkKeyIdentical = async function () {
+  let keyIdentical = false
+  let key = null
+
+  while (!keyIdentical) {
+    try {
+      key = generateRandomKey()
+      // key = "IL2FR"
+      const url = await Urls.findOne({ key: key }).exec()
+      if (!url) {
+        keyIdentical = true
+      }
+      else {
+        console.log('The key is not identical')
+      }
+    }
+    catch (e) {
+      console.log('exception: ' + e);
+    }
+  }
+  return key
+}
+
 router.post('/', (req, res, next) => {
   const target = req.body.target
   let generatedUrl = null
 
+  //Check if the input is an url
   if (validURL(target)) {
     Urls.findOne({ target: target })
       .then(url => {
@@ -35,30 +60,6 @@ router.post('/', (req, res, next) => {
           res.send(generatedUrl)
 
         } else {
-
-          //檢查 key 衝突
-          const checkKeyIdentical = async function () {
-            let keyIdentical = false
-            let key = null
-
-            while (!keyIdentical) {
-              try {
-                key = generateRandomKey()
-                // key = "IL2FR"
-                const url = await Urls.findOne({ key: key }).exec()
-                if (!url) {
-                  keyIdentical = true
-                }
-                else {
-                  console.log('The key is not identical')
-                }
-              }
-              catch (e) {
-                console.log('exception: ' + e);
-              }
-            }
-            return key
-          }
 
           checkKeyIdentical()
             .then((key) => {
@@ -80,11 +81,11 @@ router.post('/', (req, res, next) => {
       })
   }
   else {
-    console.log("This is not a Url")
     res.send(generatedUrl)
   }
 
 
 })
+
 
 module.exports = router

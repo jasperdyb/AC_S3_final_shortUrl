@@ -8,7 +8,14 @@ $("#urlSubmit").click(function () {
     type: 'post',
     cache: false,
     success: function (shortenedUrl) {
-      console.log(shortenedUrl)
+      if (shortenedUrl) {
+        $('#form-url').toggle()
+        $('#form-shortened-url').toggle()
+        $('#shortenedUrl').val(shortenedUrl)
+      }
+      else {
+        console.log("It's not an URL.")
+      }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(`error ${textStatus} errorThrown`);
