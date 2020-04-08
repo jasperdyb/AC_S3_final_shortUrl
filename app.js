@@ -29,6 +29,7 @@ app.use(express.static('public'))
 app.get('/', (req, res, next) => {
   res.render("home")
 })
+app.use('/url', require('./routers/url.js'))
 
 
 
