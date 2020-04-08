@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
 
 //Database connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/shortUrl', {
@@ -24,6 +25,7 @@ db.once('open', () => {
 //app middleware
 app.set("view engine", "pug")
 app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 //routes
 app.get('/', (req, res, next) => {
