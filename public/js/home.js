@@ -13,6 +13,7 @@ $("#urlSubmit").click(function () {
         $('#form-url').toggle()
         $('#form-shortened-url').toggle()
         $('#shortenedUrl').val(shortenedUrl)
+        $("#copyButton").text(shortenedUrl)
       }
       else {
         $('#targetUrl').after(
@@ -25,3 +26,13 @@ $("#urlSubmit").click(function () {
     }
   })
 })
+copyButton
+
+$("#copyButton").click(function () {
+  event.preventDefault()
+  $("#shortenedUrl").select()
+  document.execCommand("Copy")
+  $("#shortenedUrl").blur()
+  console.log("clicked!")
+})
+
