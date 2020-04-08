@@ -25,18 +25,19 @@ function generateRandomKey() {
 
 router.post('/', (req, res, next) => {
 
-  console.log(validURL(req.body.url))
+  let generatedUrl = null
 
-  if (validURL(req.body.url)) {
+  if (validURL(req.body.target)) {
     let key = generateRandomKey()
-    console.log("This is a Url")
-    console.log(`key = ${key}`)
+    generatedUrl = req.body.domain + '/' + key
+
+    console.log(`This is a Url. New url : ${generatedUrl}`)
   }
   else {
     console.log("This is not a Url")
   }
 
-  res.send(`get url: ${req.body.url}`)
+  res.send(generatedUrl)
 })
 
 module.exports = router
