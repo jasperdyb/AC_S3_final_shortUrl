@@ -47,6 +47,7 @@ const checkKeyIdentical = async function () {
   return key
 }
 
+//url generation
 router.post('/', (req, res, next) => {
   const target = req.body.target
   let generatedUrl = null
@@ -56,7 +57,8 @@ router.post('/', (req, res, next) => {
     Urls.findOne({ target: target })
       .then(url => {
         if (url) {
-          generatedUrl = req.body.domain + '/' + url.key
+          // generatedUrl = req.body.domain + '/url/' + url.key
+          generatedUrl = `${req.body.domain}:${req.body.port}/url/${url.key}`
           res.send(generatedUrl)
 
         } else {
@@ -68,7 +70,8 @@ router.post('/', (req, res, next) => {
                 key: key
               })
 
-              generatedUrl = req.body.domain + '/' + key
+              // generatedUrl = req.body.domain + '/url/' + key
+              generatedUrl = `${req.body.domain}:${req.body.port}/url/${url.key}`
 
               console.log(`This is a Url(${target}). New url : ${generatedUrl}`)
 
@@ -87,5 +90,14 @@ router.post('/', (req, res, next) => {
 
 })
 
+router.get('/:key', (req, res, next) => {
+  console.log(req.params.key)
+  Urls.findOne({ key: req.params.key })
+    .lean()
+    .exec((err, url) => {
+      if (err) return console.error(err)
+      res.redirect(url.target)
+    })
+})
 
 module.exports = router
