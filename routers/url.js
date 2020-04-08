@@ -14,6 +14,8 @@ const validURL = function (str) {
   return !!pattern.test(str);
 }
 
+
+//產生 key
 const generateRandomKey = function () {
   const characters = "0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ";
   let string = "";
@@ -71,7 +73,7 @@ router.post('/', (req, res, next) => {
               })
 
               // generatedUrl = req.body.domain + '/url/' + key
-              generatedUrl = `${req.body.domain}:${req.body.port}/url/${url.key}`
+              generatedUrl = `${req.body.domain}:${req.body.port}/url/${url.key}` //for localhost
 
               console.log(`This is a Url(${target}). New url : ${generatedUrl}`)
 

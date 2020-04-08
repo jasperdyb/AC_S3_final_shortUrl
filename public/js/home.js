@@ -3,6 +3,8 @@ $("#urlSubmit").click(function () {
   const domain = window.location.hostname
   const port = window.location.port //for localhost
 
+  $('.alert').remove()
+
   $.ajax({
     data: { target: target, domain: domain, port: port },
     url: '/url',
@@ -13,10 +15,9 @@ $("#urlSubmit").click(function () {
         $('#form-url').toggle()
         $('#form-shortened-url').toggle()
         $('#shortenedUrl').val(shortenedUrl)
-        $("#copyButton").text(shortenedUrl)
       }
       else {
-        $('#targetUrl').after(
+        $('#form-url div').after(
           '<div class="alert alert-warning alert-dismissible fade show" role="alert">This is not an url.<button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button></div>')
         console.log("It's not an URL.")
       }
@@ -29,10 +30,13 @@ $("#urlSubmit").click(function () {
 copyButton
 
 $("#copyButton").click(function () {
+  $('.alert').remove()
   event.preventDefault()
   $("#shortenedUrl").select()
   document.execCommand("Copy")
   $("#shortenedUrl").blur()
+  $('#form-shortened-url').append(
+    '<div class="alert alert-success alert-dismissible fade show" role="alert">Copied!<button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button></div>')
   console.log("clicked!")
 })
 
